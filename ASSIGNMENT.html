@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .list-view {
+      list-style-type: none;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .list-view li {
+      background-color: #f2f2f2;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .list-view li .image-container {
+      position: relative;
+    }
+
+    .list-view li .image-container::before {
+      content: attr(data-id);
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 40px;
+      height: 40px;
+      background-color: rgb(0, 0, 0);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .list-view li .image-container img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 3px solid rgb(115, 115, 115);
+      box-sizing: border-box;
+      padding: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.3s ease;
+    }
+
+    .list-view li span.name {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: right;
+      margin-bottom: 40px;
+      margin-top: 20px;
+    }
+
+    .search-container input[type="text"] {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-container input[type="text"]:hover {
+      background-color: #c6c5c5;
+    }
+
+    h1 {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .list-view li .image-container img:hover {
+      border-color: rgb(13, 13, 13);
+      cursor: pointer;
+    }
+    
+    .list-view li .image-container img:active {
+      border-color: rgb(215, 242, 255);
+    }
+  </style>
+</head>
+<body>
+  <h1>List View</h1>
+
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Search">
+  </div>
+
+  <ul id="name-list" class="list-view"></ul>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      var data = [
+        { id: 1, name: "Akhil", image: "Profile picc.jpg" },
+        { id: 2, name: "Akhil2", image: "Profile picc.jpg" },
+        { id: 3, name: "Akhil3", image: "Profile picc.jpg" },
+        { id: 4, name: "Akhil4", image: "Profile picc.jpg" }
+      ];
+
+      var nameList = document.getElementById('name-list');
+      var searchInput = document.getElementById('search-input');
+
+      function renderList() {
+        nameList.innerHTML = '';
+
+        var searchValue = searchInput.value.toLowerCase();
+
+        data.forEach(function(item) {
+          if (item.name.toLowerCase().includes(searchValue)) {
+            var listItem = document.createElement('li');
+
+            var imageContainer = document.createElement('div');
+            imageContainer.classList.add('image-container');
+            imageContainer.setAttribute('data-id', item.id);
+
+            var image = document.createElement('img');
+            image.src = item.image;
+            image.alt = item.name;
+
+            imageContainer.appendChild(image);
+            listItem.appendChild(imageContainer);
+
+            var name = document.createElement('span');
+            name.classList.add('name');
+            name.textContent = item.name;
+            listItem.appendChild(name);
+
+            nameList.appendChild(listItem);
+          }
+        });
+      }
+
+      searchInput.addEventListener('input', renderList);
+
+      renderList();
+    });
+  </script>
+</body>
+</html>
